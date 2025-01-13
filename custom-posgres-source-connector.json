@@ -1,0 +1,15 @@
+{
+  "name": "custom-postgres-source-connector",
+  "config": {
+    "connector.class": "code.shubham.connectors.source.CustomPostgresSourceConnector",
+    "tasks.max": "1",
+    "postgres.url": "jdbc:postgresql://localhost:5432/info",
+    "postgres.user": "postgres",
+    "postgres.password": "postgres",
+    "postgres.query": "SELECT * FROM persons",
+    "kafka.topic": "persons",
+    "key.converter": "org.apache.kafka.connect.storage.StringConverter",
+    "value.converter": "org.apache.kafka.connect.json.JsonConverter",
+    "value.converter.schemas.enable": true
+  }
+}

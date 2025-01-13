@@ -1,0 +1,14 @@
+{
+    "name": "custom-mongo-sink-connector",
+    "config": {
+        "connector.class": "code.shubham.connectors.sink.CustomMongoSinkConnector",
+        "tasks.max": "1",
+        "topics": "persons",
+        "mongodb.uri": "mongodb://localhost:27017",
+        "mongodb.database": "sink",
+        "mongodb.collection": "persons",
+        "key.converter": "org.apache.kafka.connect.storage.StringConverter",
+        "value.converter": "org.apache.kafka.connect.json.JsonConverter",
+        "value.converter.schemas.enable": false
+    }
+}
