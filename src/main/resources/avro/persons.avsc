@@ -1,0 +1,27 @@
+{
+  "type": "record",
+  "name": "Person",
+  "namespace": "code.shubham",
+  "fields": [
+    {"name": "id", "type": "int"},
+    {"name": "first_name", "type": ["null", "string"], "default": null},
+    {"name": "middle_name", "type": ["null", "string"], "default": null},
+    {"name": "last_name", "type": ["null", "string"], "default": null},
+    {"name": "full_name", "type": ["null", "string"], "default": null},
+    {"name": "email", "type": ["null", "string"], "default": null},
+    {"name": "mobile", "type": ["null", "string"], "default": null},
+    {"name": "uid", "type": ["null", "string"], "default": null},
+    {"name": "pan", "type": ["null", "string"], "default": null},
+    {"name": "uan", "type": ["null", "string"], "default": null},
+    {"name": "passport", "type": ["null", "string"], "default": null},
+    {"name": "instagram", "type": ["null", "string"], "default": null},
+    {"name": "twitter", "type": ["null", "string"], "default": null},
+    {"name": "facebook", "type": ["null", "string"], "default": null},
+    {"name": "snapchat", "type": ["null", "string"], "default": null},
+    {"name": "github", "type": ["null", "string"], "default": null},
+    {"name": "hackerrank", "type": ["null", "string"], "default": null},
+    {"name": "hackernews", "type": ["null", "string"], "default": null},
+    {"name": "created_at", "type": "long"},
+    {"name": "updated_at", "type": "long"}
+  ]
+}

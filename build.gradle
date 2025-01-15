@@ -5,12 +5,24 @@ plugins {
 group = 'code.shubham'
 version = '1.0.0'
 
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(23)
+    }
+}
+
 repositories {
     mavenCentral()
+    maven {
+        url 'https://packages.confluent.io/maven/'
+    }
 }
 
 dependencies {
     implementation 'org.apache.kafka:connect-api:3.9.0'
+    implementation 'org.apache.kafka:kafka-clients:3.9.0'
+    implementation 'io.confluent:kafka-avro-serializer:7.8.0'
+
     implementation 'org.mongodb:mongodb-driver-sync:5.3.0'
     implementation 'org.postgresql:postgresql:42.7.4'
 
@@ -35,7 +47,9 @@ task buildFatJar(type: Jar) {
         attributes 'Main-Class': 'code.shubham.Main'
     }
     archiveBaseName = 'custom-confluent-kafka-connector'
+    archiveVersion = '1.0.0'
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    destinationDirectory = file('connect-plugins/jar')
     from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
     with jar
 }

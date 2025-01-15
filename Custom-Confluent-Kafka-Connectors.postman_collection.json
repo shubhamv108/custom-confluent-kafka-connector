@@ -1,0 +1,172 @@
+{
+	"info": {
+		"_postman_id": "71e1d358-4fc5-476d-a332-aebca051a7e3",
+		"name": "Custom-Confluent-Kafka-Connectors",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "5074949"
+	},
+	"item": [
+		{
+			"name": "[POST] Source-Connector",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"custom-postgres-source-connector\",\n  \"config\": {\n    \"connector.class\": \"code.shubham.connectors.source.CustomPostgresSourceConnector\",\n    \"tasks.max\": \"1\",\n    \"postgres.url\": \"jdbc:postgresql://localhost:5432/info\",\n    \"postgres.user\": \"postgres\",\n    \"postgres.password\": \"postgres\",\n    \"postgres.query\": \"SELECT * FROM persons\",\n    \"kafka.topic\": \"persons\",\n    \"key.converter\": \"io.confluent.connect.avro.AvroConverter\",\n    \"value.converter\": \"io.confluent.connect.avro.AvroConverter\",\n    \"value.converter.schemas.enable\": true,\n    \"key.converter.schema.registry.url\": \"http://localhost:8081\",\n    \"value.converter.schema.registry.url\": \"http://localhost:8081\"\n  }\n}\n"
+				},
+				"url": {
+					"raw": "http://localhost:8083/connectors",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"connectors"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[POST] Sink-Connector",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"custom-mongo-sink-connector\",\n    \"config\": {\n        \"connector.class\": \"code.shubham.connectors.sink.CustomMongoSinkConnector\",\n        \"tasks.max\": \"1\",\n        \"topics\": \"persons\",\n        \"mongodb.uri\": \"mongodb://localhost:27017\",\n        \"mongodb.database\": \"sink\",\n        \"mongodb.collection\": \"persons\",\n        \"key.converter\": \"io.confluent.connect.avro.AvroConverter\",\n        \"value.converter\": \"io.confluent.connect.avro.AvroConverter\",\n        \"value.converter.schemas.enable\": false,\n        \"key.converter.schema.registry.url\": \"http://localhost:8081\",\n        \"value.converter.schema.registry.url\": \"http://localhost:8081\"\n    }\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8083/connectors",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"connectors"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[DELETE] Source-Connector",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8083/connectors/custom-postgres-source-connector",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"connectors",
+						"custom-postgres-source-connector"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[DELETE] Sink-Connector",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8083/connectors/custom-mongo-sink-connector",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"connectors",
+						"custom-mongo-sink-connector"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[POST] Restart-Connector",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8083/connectors/custom-postgres-source-connector/restart",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"connectors",
+						"custom-postgres-source-connector",
+						"restart"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[POST] Value-Schema",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/vnd.schemaregistry.v1+json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"schema\": \"{\\\"type\\\":\\\"record\\\",\\\"name\\\":\\\"Person\\\",\\\"namespace\\\":\\\"com.example\\\",\\\"fields\\\":[{\\\"name\\\":\\\"id\\\",\\\"type\\\":\\\"int\\\"},{\\\"name\\\":\\\"first_name\\\",\\\"type\\\":[\\\"null\\\",\\\"string\\\"],\\\"default\\\":null},{\\\"name\\\":\\\"middle_name\\\",\\\"type\\\":[\\\"null\\\",\\\"string\\\"],\\\"default\\\":null},{\\\"name\\\":\\\"last_name\\\",\\\"type\\\":[\\\"null\\\",\\\"string\\\"],\\\"default\\\":null},{\\\"name\\\":\\\"full_name\\\",\\\"type\\\":[\\\"null\\\",\\\"string\\\"],\\\"default\\\":null},{\\\"name\\\":\\\"email\\\",\\\"type\\\":[\\\"null\\\",\\\"string\\\"],\\\"default\\\":null},{\\\"name\\\":\\\"mobile\\\",\\\"type\\\":[\\\"null\\\",\\\"string\\\"],\\\"default\\\":null},{\\\"name\\\":\\\"uid\\\",\\\"type\\\":[\\\"null\\\",\\\"string\\\"],\\\"default\\\":null},{\\\"name\\\":\\\"pan\\\",\\\"type\\\":[\\\"null\\\",\\\"string\\\"],\\\"default\\\":null},{\\\"name\\\":\\\"uan\\\",\\\"type\\\":[\\\"null\\\",\\\"string\\\"],\\\"default\\\":null},{\\\"name\\\":\\\"passport\\\",\\\"type\\\":[\\\"null\\\",\\\"string\\\"],\\\"default\\\":null},{\\\"name\\\":\\\"instagram\\\",\\\"type\\\":[\\\"null\\\",\\\"string\\\"],\\\"default\\\":null},{\\\"name\\\":\\\"twitter\\\",\\\"type\\\":[\\\"null\\\",\\\"string\\\"],\\\"default\\\":null},{\\\"name\\\":\\\"facebook\\\",\\\"type\\\":[\\\"null\\\",\\\"string\\\"],\\\"default\\\":null},{\\\"name\\\":\\\"snapchat\\\",\\\"type\\\":[\\\"null\\\",\\\"string\\\"],\\\"default\\\":null},{\\\"name\\\":\\\"github\\\",\\\"type\\\":[\\\"null\\\",\\\"string\\\"],\\\"default\\\":null},{\\\"name\\\":\\\"hackerrank\\\",\\\"type\\\":[\\\"null\\\",\\\"string\\\"],\\\"default\\\":null},{\\\"name\\\":\\\"hackernews\\\",\\\"type\\\":[\\\"null\\\",\\\"string\\\"],\\\"default\\\":null},{\\\"name\\\":\\\"created_at\\\",\\\"type\\\":\\\"long\\\"},{\\\"name\\\":\\\"updated_at\\\",\\\"type\\\":\\\"long\\\"}]}\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8081/subjects/persons-value/versions",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"subjects",
+						"persons-value",
+						"versions"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
